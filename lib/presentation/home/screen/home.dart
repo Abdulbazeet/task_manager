@@ -106,17 +106,29 @@ class _HomeState extends ConsumerState<Home> {
                     ],
                   ),
                 ),
-                body: RefreshIndicator(
-                  onRefresh: () =>
-                      ref.read(tasksProvider.notifier).fetchTasks(),
-                  child: TabBarView(
-                    children: [
-                      TaskList(tasks: allTasks),
-                      TaskList(tasks: pendingTasks),
-                      TaskList(tasks: inProgressTasks),
-                      TaskList(tasks: doneTasks),
-                    ],
-                  ),
+                body: TabBarView(
+                  children: [
+                    RefreshIndicator(
+                      onRefresh: () =>
+                          ref.read(tasksProvider.notifier).fetchTasks(),
+                      child: TaskList(tasks: allTasks),
+                    ),
+                    RefreshIndicator(
+                      onRefresh: () =>
+                          ref.read(tasksProvider.notifier).fetchTasks(),
+                      child: TaskList(tasks: pendingTasks),
+                    ),
+                    RefreshIndicator(
+                      onRefresh: () =>
+                          ref.read(tasksProvider.notifier).fetchTasks(),
+                      child: TaskList(tasks: inProgressTasks),
+                    ),
+                    RefreshIndicator(
+                      onRefresh: () =>
+                          ref.read(tasksProvider.notifier).fetchTasks(),
+                      child: TaskList(tasks: doneTasks),
+                    ),
+                  ],
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
