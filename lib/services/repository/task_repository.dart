@@ -7,7 +7,8 @@ import 'package:tasks/models/file_attachment.dart';
 import '../../config/exception.dart';
 
 class TaskRepository {
-  static const String baseUrl = 'http://10.0.2.2:8000/api';
+  static const String baseUrl =
+      'https://taskmanager-production-dee.up.railway.app/api';
 
   // Get all tasks
   Future<List<Task>> getTasks({
