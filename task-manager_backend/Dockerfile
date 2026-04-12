@@ -1,7 +1,7 @@
-FROM php:8.2-fpm
+FROM php:8.2-apache
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install required PHP extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     libpng-dev \
@@ -9,38 +9,43 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    mysql-client
+    && rm -rf /var/lib/apt/lists/*
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Get latest Composer
+# Get Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /app
+WORKDIR /var/www/html
 
-# Copy existing application directory contents
+# Copy files
 COPY . .
 
 # Install dependencies
-RUN composer install --no-interaction --prefer-dist
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Copy .env.example to .env
-RUN cp .env.example .env
-
-# Generate application key
+# Generate key
 RUN php artisan key:generate
 
-# Expose port 8000
-EXPOSE 8000
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Enable Apache rewrite module
+RUN a2enmod rewrite
+
+# Apache config
+RUN echo "
+<Directory /var/www/html>
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+" > /etc/apache2/conf-available/laravel.conf && a2enconf laravel
+
+EXPOSE 80
 
 # Create entrypoint script
-RUN echo '#!/bin/bash\nphp artisan migrate --force\nphp artisan serve --host=0.0.0.0 --port=8000' > /app/start.sh
+RUN echo '#!/bin/bash\nphp artisan migrate --force\napache2-foreground' > /app/start.sh
 RUN chmod +x /app/start.sh
 
-# Start Laravel server with migrations
 CMD ["/app/start.sh"]
