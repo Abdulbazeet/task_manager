@@ -18,13 +18,21 @@ class TaskList extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.inbox_outlined, size: 64, color: Colors.grey.shade400),
+            Icon(
+              Icons.inbox_outlined,
+              size: 64,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey.shade600
+                  : Colors.grey.shade400,
+            ),
             const SizedBox(height: 16),
             Text(
               'No tasks',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey.shade400
+                    : Colors.grey.shade600,
+              ),
             ),
           ],
         ),
@@ -124,7 +132,9 @@ class _TaskCard extends ConsumerWidget {
                         task.title,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black87,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -136,7 +146,13 @@ class _TaskCard extends ConsumerWidget {
                           child: Text(
                             task.description!,
                             style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: Colors.black87),
+                                ?.copyWith(
+                                  color:
+                                      Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white70
+                                      : Colors.black87,
+                                ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -241,16 +257,20 @@ class _TaskCard extends ConsumerWidget {
                 if (task.dueDate != null)
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.calendar_today,
                         size: 14,
-                        color: Colors.black87,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.black87,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         _formatDate(task.dueDate!),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.black87,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white70
+                              : Colors.black87,
                           fontSize: 12,
                         ),
                       ),
