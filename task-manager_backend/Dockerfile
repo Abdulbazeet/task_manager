@@ -2,7 +2,7 @@ FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y \
     git curl zip unzip \
-    liboniguruma-dev \
+    libonig-dev \
     libjpeg-dev libpng-dev libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/*
 
