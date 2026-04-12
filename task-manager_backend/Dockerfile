@@ -16,10 +16,9 @@ COPY . .
 
 RUN mkdir -p bootstrap/cache storage/logs storage/framework/sessions storage/framework/views storage/framework/cache
 RUN composer install 2>&1 | head -20 || true
-RUN cp .env.example .env && php artisan key:generate 2>/dev/null || true
-RUN chown -R www-data:www-data . && chmod -R 755 bootstrap/cache storage
+RUN chown -R www-data:www-data . && chmod -R 777 bootstrap/cache storage
 
-RUN printf '#!/bin/bash\nset -e\necho "Running migrations..."\nphp artisan migrate --force 2>&1 || true\necho "Starting services..."\nservice php8.3-fpm start\nnginx -g "daemon off;"\n' > /entrypoint.sh && chmod +x /entrypoint.sh
+RUN printf '#!/bin/bash\nset -e\necho "Fixing permissions..."\nchown -R www-data:www-data /var/www/html\nchmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache\necho "Clearing cache and running migrations..."\nphp artisan config:clear 2>/dev/null || true\nphp artisan cache:clear 2>/dev/null || true\nphp artisan migrate --force 2>&1 || true\necho "Starting services..."\nservice php8.3-fpm start\nnginx -g "daemon off;"\n' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
 CMD ["/entrypoint.sh"]
