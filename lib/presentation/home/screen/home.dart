@@ -86,43 +86,48 @@ class _HomeState extends ConsumerState<Home> {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   actions: [
-                    PopupMenuButton(
-                      itemBuilder: (BuildContext context) {
-                        final isDarkMode = ref.watch(themeProvider);
-                        return [
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  isDarkMode
-                                      ? Icons.light_mode
-                                      : Icons.dark_mode,
-                                ),
-                                const SizedBox(width: 12),
-                                Text(isDarkMode ? 'Light Mode' : 'Dark Mode'),
-                              ],
+                    PopupMenuButton<String>(
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<String>>[
+                            PopupMenuItem<String>(
+                              value: 'theme',
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    ref.watch(themeProvider)
+                                        ? Icons.light_mode
+                                        : Icons.dark_mode,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    ref.watch(themeProvider)
+                                        ? 'Light Mode'
+                                        : 'Dark Mode',
+                                  ),
+                                ],
+                              ),
                             ),
-                            onTap: () {
-                              ref.read(themeProvider.notifier).toggleTheme();
-                            },
-                          ),
-                          const PopupMenuDivider(),
-                          PopupMenuItem(
-                            child: const Row(
-                              children: [
-                                Icon(Icons.logout, color: Colors.red),
-                                SizedBox(width: 12),
-                                Text(
-                                  'Logout',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ],
+                            const PopupMenuDivider(),
+                            PopupMenuItem<String>(
+                              value: 'logout',
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.logout, color: Colors.red),
+                                  SizedBox(width: 12),
+                                  Text(
+                                    'Logout',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
                             ),
-                            onTap: () {
-                              _showLogoutDialog(context);
-                            },
-                          ),
-                        ];
+                          ],
+                      onSelected: (value) {
+                        if (value == 'theme') {
+                          ref.read(themeProvider.notifier).toggleTheme();
+                        } else if (value == 'logout') {
+                          _showLogoutDialog(context);
+                        }
                       },
                     ),
                   ],
