@@ -9,11 +9,24 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Create startup script to fix MPM conflicts at runtime
-RUN printf '#!/bin/bash\nset -e\nrm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf 2>/dev/null || true\na2enmod mpm_prefork rewrite headers 2>/dev/null || true\nexec apache2-foreground\n' > /entrypoint.sh && chmod +x /entrypoint.sh
+# Completely disable event and worker MPM before enabling prefork
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true
+RUN a2enmod mpm_prefork rewrite
 
-# Create Apache VirtualHost config for Laravel public folder
-RUN printf '<VirtualHost *:80>\n    DocumentRoot /var/www/html/public\n    <Directory /var/www/html/public>\n        AllowOverride All\n        Require all granted\n    </Directory>\n    ErrorLog ${APACHE_LOG_DIR}/error.log\n    CustomLog ${APACHE_LOG_DIR}/access.log combined\n</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+# Configure Apache for Laravel
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/c\
+    <Directory /var/www/html/public>\
+        AllowOverride All\
+        Require all granted\
+        <IfModule mod_rewrite.c>\
+            RewriteEngine On\
+            RewriteBase /\
+            RewriteCond %{REQUEST_FILENAME} !-f\
+            RewriteCond %{REQUEST_FILENAME} !-d\
+            RewriteRule ^(.*)$ index.php/$1 [L]\
+        </IfModule>\
+    </Directory>' /etc/apache2/apache2.conf
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
@@ -29,4 +42,4 @@ RUN cp .env.example .env && php artisan key:generate 2>/dev/null || true
 RUN chown -R www-data:www-data . && chmod -R 755 bootstrap/cache storage
 
 EXPOSE 80
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["apache2-foreground"]
