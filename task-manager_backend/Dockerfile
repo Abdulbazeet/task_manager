@@ -1,6 +1,12 @@
 FROM php:8.3-apache
 
-RUN apt-get update && apt-get install -y git curl zip unzip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    git curl zip unzip \
+    liboniguruma-dev \
+    libjpeg-dev libpng-dev libfreetype6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 RUN a2enmod rewrite
 
