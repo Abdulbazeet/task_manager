@@ -33,19 +33,15 @@ RUN chown -R www-data:www-data /var/www/html
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Apache config
-RUN echo "
-<Directory /var/www/html>
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
-" > /etc/apache2/conf-available/laravel.conf && a2enconf laravel
+# Move to public folder as document root
+RUN a2dissite 000-default.conf && \
+    echo '<VirtualHost *:80>\n    ServerName localhost\n    DocumentRoot /var/www/html/public\n    <Directory /var/www/html/public>\n        AllowOverride All\n    </Directory>\n</VirtualHost>' > /etc/apache2/sites-available/default.conf && \
+    a2ensite default.conf
 
 EXPOSE 80
 
-# Create entrypoint script
-RUN echo '#!/bin/bash\nphp artisan migrate --force\napache2-foreground' > /app/start.sh
-RUN chmod +x /app/start.sh
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-CMD ["/app/start.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
