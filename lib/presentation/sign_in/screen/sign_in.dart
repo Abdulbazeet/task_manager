@@ -93,7 +93,9 @@ class _SignInState extends ConsumerState<SignIn> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF1A1A20)
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(

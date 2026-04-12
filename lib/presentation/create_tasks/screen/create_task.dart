@@ -138,14 +138,16 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
               ),
               SizedBox(height: 5),
               TextField(
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.black),
-
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
                 controller: _titleController,
-
                 decoration: InputDecoration(
-                  fillColor: Colors.white,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF1A1A20)
+                      : Colors.white,
                   filled: true,
                   hintText: 'Enter task title',
                   hintStyle: Theme.of(context).textTheme.bodySmall,
@@ -173,18 +175,19 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
               ),
               SizedBox(height: 5),
               TextField(
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.black),
-
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
                 controller: _descriptionController,
                 minLines: 4,
                 maxLines: null,
-
                 decoration: InputDecoration(
-                  fillColor: Colors.white,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF1A1A20)
+                      : Colors.white,
                   filled: true,
-
                   hintText: 'Add description',
                   hintStyle: Theme.of(context).textTheme.bodySmall,
                   border: OutlineInputBorder(
@@ -234,7 +237,9 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                       decoration: BoxDecoration(
                         color: onSelected
                             ? priorityColor.withValues(alpha: 0.3)
-                            : Colors.white,
+                            : (Theme.of(context).brightness == Brightness.dark
+                                  ? const Color(0xFF1A1A20)
+                                  : Colors.white),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: onSelected
@@ -283,7 +288,9 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF1A1A20)
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
@@ -293,7 +300,13 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                           ? Text(
                               'Due: ${DateFormat('MMM dd, yyyy').format(chosenDate!)}',
                               style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.black),
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
                             )
                           : Text(
                               'Select due date',
@@ -301,7 +314,9 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                             ),
                       Icon(
                         Icons.calendar_month_outlined,
-                        color: Colors.black54,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.black54,
                       ),
                     ],
                   ),
@@ -321,12 +336,19 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF1A1A20)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       'OPTIONAL',
-                      style: TextStyle(fontSize: 10, color: Colors.black87),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.black87,
+                      ),
                     ),
                   ),
                 ],
@@ -348,7 +370,9 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF1A1A20)
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -372,7 +396,9 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                         selectedFileName ?? 'Attach file',
                         textAlign: .center,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.black,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                           fontWeight: .w500,
                         ),
                       ),
@@ -381,7 +407,12 @@ class _CreateTaskState extends ConsumerState<CreateTask> {
                             ? 'Click to change file'
                             : 'File should not be more than 10 MB',
                         textAlign: .center,
-                        style: TextStyle(fontSize: 12, color: Colors.black54),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white70
+                              : Colors.black54,
+                        ),
                       ),
                     ],
                   ),

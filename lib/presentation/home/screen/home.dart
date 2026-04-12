@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tasks/services/controllers/tasks_controller.dart';
 import 'package:tasks/services/controllers/auth_controller.dart';
+import 'package:tasks/services/controllers/theme_controller.dart';
 import 'package:tasks/widget/task_list.dart';
 
 class Home extends ConsumerStatefulWidget {
@@ -86,14 +87,43 @@ class _HomeState extends ConsumerState<Home> {
                   ),
                   actions: [
                     PopupMenuButton(
-                      itemBuilder: (BuildContext context) => [
-                        PopupMenuItem(
-                          child: const Text('Logout'),
-                          onTap: () {
-                            _showLogoutDialog(context);
-                          },
-                        ),
-                      ],
+                      itemBuilder: (BuildContext context) {
+                        final isDarkMode = ref.watch(themeProvider);
+                        return [
+                          PopupMenuItem(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  isDarkMode
+                                      ? Icons.light_mode
+                                      : Icons.dark_mode,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(isDarkMode ? 'Light Mode' : 'Dark Mode'),
+                              ],
+                            ),
+                            onTap: () {
+                              ref.read(themeProvider.notifier).toggleTheme();
+                            },
+                          ),
+                          const PopupMenuDivider(),
+                          PopupMenuItem(
+                            child: const Row(
+                              children: [
+                                Icon(Icons.logout, color: Colors.red),
+                                SizedBox(width: 12),
+                                Text(
+                                  'Logout',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              _showLogoutDialog(context);
+                            },
+                          ),
+                        ];
+                      },
                     ),
                   ],
                   bottom: TabBar(
