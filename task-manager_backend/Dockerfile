@@ -18,7 +18,7 @@ RUN mkdir -p bootstrap/cache storage/logs storage/framework/sessions storage/fra
 RUN composer install 2>&1 | head -20 || true
 RUN chown -R www-data:www-data . && chmod -R 777 bootstrap/cache storage
 
-RUN printf '#!/bin/bash\nset -e\necho "Setting up Laravel..."\nchown -R www-data:www-data /var/www/html\nchmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache\necho "Running migrations..."\nphp artisan migrate --force --quiet 2>&1 | grep -v "already exists" || true\necho "Starting PHP-FPM and Nginx..."\nservice php8.3-fpm start\necho "Services started. Ready to accept requests."\nnginx -g "daemon off;"\n' > /entrypoint.sh && chmod +x /entrypoint.sh
+RUN printf '#!/bin/bash\necho "Setting up Laravel..."\nchown -R www-data:www-data /var/www/html\nchmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache\necho "Starting services..."\nservice php8.3-fpm start\necho "Nginx starting..."\nnginx -g "daemon off;"\n' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
 CMD ["/entrypoint.sh"]
