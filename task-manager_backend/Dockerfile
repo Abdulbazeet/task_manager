@@ -38,5 +38,9 @@ RUN php artisan key:generate
 # Expose port 8000
 EXPOSE 8000
 
-# Start Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Create entrypoint script
+RUN echo '#!/bin/bash\nphp artisan migrate --force\nphp artisan serve --host=0.0.0.0 --port=8000' > /app/start.sh
+RUN chmod +x /app/start.sh
+
+# Start Laravel server with migrations
+CMD ["/app/start.sh"]
