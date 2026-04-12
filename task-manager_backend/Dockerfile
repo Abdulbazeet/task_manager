@@ -14,11 +14,14 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
+# Create necessary directories
+RUN mkdir -p bootstrap/cache storage/logs storage/framework/sessions storage/framework/views storage/framework/cache
+
 # Skip optimization - just install
 RUN composer install 2>&1 | head -20 || true
 
 RUN cp .env.example .env && php artisan key:generate 2>/dev/null || true
-RUN chown -R www-data:www-data . && find storage bootstrap/cache -type d -exec chmod 777 {} \;
+RUN chown -R www-data:www-data . && chmod -R 755 bootstrap/cache storage
 
 RUN echo '<Directory /var/www/html/public>\nAllowOverride All\n</Directory>' >> /etc/apache2/apache2.conf
 RUN sed -i 's|/var/www/html|/var/www/html/public|' /etc/apache2/sites-available/000-default.conf
