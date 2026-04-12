@@ -1,0 +1,127 @@
+# ============================================
+# Flutter
+# ============================================
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+pubspec.lock
+
+# ============================================
+# iOS
+# ============================================
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/Flutter.xcframework
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/.last_build_id
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/Flutter/.flutter_build/
+**/ios/**/GeneratedPluginRegistrant.*
+**/ios/**/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# ============================================
+# Android
+# ============================================
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/**/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/**/GeneratedPluginRegistrant.kt
+**/android/key.properties
+**/android/key.jks
+**/android/.dart_tool/
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/xcworkspace/
+
+# ============================================
+# Web
+# ============================================
+lib/generated_plugin_registrant.dart
+/web/flutter_service_worker.js
+
+# ============================================
+# Windows
+# ============================================
+windows/flutter/generated_plugins.cmake
+windows/flutter/generated_plugins.cmake
+windows/runner/flutter/generated_plugin_registrant.cc
+windows/runner/flutter/generated_plugin_registrant.h
+windows/runner/plugins/**
+
+# ============================================
+# macOS
+# ============================================
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/Flutter-Release.xcconfig
+macos/Flutter/Flutter-Debug.xcconfig
+macos/**/GeneratedPluginRegistrant.*
+
+# ============================================
+# Linux
+# ============================================
+linux/flutter/generated_plugins.cmake
+
+# ============================================
+# IDE & Editor
+# ============================================
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+.atom/
+.history
+.svn/
+
+# ============================================
+# OS
+# ============================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ============================================
+# Environment & Local
+# ============================================
+.env
+.env.local
+*.log
+.dart_tool/
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+.coverage
+
+# ============================================
+# Generated Files
+# ============================================
+lib/generated_plugin_registrant.dart
+**/generated_plugin_registrant.dart

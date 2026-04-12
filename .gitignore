@@ -1,0 +1,101 @@
+# ============================================
+# GENERAL
+# ============================================
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.env
+.env.local
+.env.*.local
+*.swiftpm/
+migrate_working_dir/
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ============================================
+# BACKEND (Laravel)
+# ============================================
+task-manager_backend/.env
+task-manager_backend/.env.*
+!task-manager_backend/.env.example
+task-manager_backend/vendor/
+task-manager_backend/node_modules/
+task-manager_backend/npm-debug.log
+task-manager_backend/yarn-error.log
+task-manager_backend/.DS_Store
+task-manager_backend/Thumbs.db
+task-manager_backend/storage/logs/
+task-manager_backend/storage/app/
+task-manager_backend/bootstrap/cache/
+task-manager_backend/*.pem
+task-manager_backend/.phpunit.result.cache
+task-manager_backend/public/storage
+
+# ============================================
+# FLUTTER (Mobile App)
+# ============================================
+# Miscellaneous
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+pubspec.lock
+
+# iOS/macOS
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/Flutter/.flutter_build/
+**/ios/**/Flutter/Flutter.framework
+**/ios/**/Flutter/Flutter.podspec
+**/ios/**/Flutter/Flutter.xcframework
+**/ios/**/GeneratedPluginRegistrant.*
+**/ios/**/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Android
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/**/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/**/GeneratedPluginRegistrant.kotlin
+**/android/key.properties
+**/android/key.jks
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Web
+lib/generated_plugin_registrant.dart
+
+# Windows
+windows/flutter/generated_plugins.cmake
+windows/flutter/generated_plugins.cmake

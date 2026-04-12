@@ -1,0 +1,84 @@
+
+# ============================================
+# Environment & Secrets
+# ============================================
+.env
+.env.backup
+.env.production
+.env.local
+.env.*.local
+!.env.example
+.ssh/
+*.pem
+auth.json
+
+# ============================================
+# Composer & Dependencies
+# ============================================
+/vendor
+/node_modules
+composer.lock
+package-lock.json
+yarn.lock
+
+# ============================================
+# Laravel Framework
+# ============================================
+/storage/*.key
+/storage/logs/
+/storage/cache/
+/storage/app/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/pail
+/bootstrap/cache/
+/public/build
+/public/hot
+/public/storage
+/build/
+
+# ============================================
+# IDE & Editor
+# ============================================
+.vscode/
+.idea/
+.phpstorm.meta.php
+.fleet/
+.nova/
+.zed/
+*.iml
+*.ipr
+*.iws
+.phpactor.json
+_ide_helper.php
+
+# ============================================
+# Testing & Logs
+# ============================================
+.phpunit.result.cache
+/.phpunit.cache
+.coverage
+coverage.xml
+*.log
+
+# ============================================
+# OS
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ============================================
+# Homestead / Vagrant
+# ============================================
+Homestead.json
+Homestead.yaml
+
+# ============================================
+# Local Development
+# ============================================
+npm-debug.log
+yarn-error.log
+
