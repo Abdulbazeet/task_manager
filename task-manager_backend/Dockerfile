@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Disable conflicting Apache MPM modules, keep only prefork
-RUN a2dismod mpm_event mpm_worker mpm_async 2>/dev/null || true
+# Remove ALL MPM modules completely, then enable only mpm_prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
 RUN a2enmod mpm_prefork rewrite headers
 
 # Create Apache VirtualHost config for Laravel public folder
