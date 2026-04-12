@@ -8,7 +8,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-RUN a2enmod rewrite
+RUN a2enmod rewrite headers
+
+# Create Apache VirtualHost config for Laravel public folder
+RUN printf '<VirtualHost *:80>\n    DocumentRoot /var/www/html/public\n    <Directory /var/www/html/public>\n        AllowOverride All\n        Require all granted\n    </Directory>\n    ErrorLog ${APACHE_LOG_DIR}/error.log\n    CustomLog ${APACHE_LOG_DIR}/access.log combined\n</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
@@ -22,9 +25,6 @@ RUN composer install 2>&1 | head -20 || true
 
 RUN cp .env.example .env && php artisan key:generate 2>/dev/null || true
 RUN chown -R www-data:www-data . && chmod -R 755 bootstrap/cache storage
-
-RUN echo '<Directory /var/www/html/public>\nAllowOverride All\n</Directory>' >> /etc/apache2/apache2.conf
-RUN sed -i 's|/var/www/html|/var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
 CMD ["apache2-foreground"]
