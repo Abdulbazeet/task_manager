@@ -8,7 +8,6 @@ class Task {
   final DateTime? dueDate;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final List<dynamic>? attachments;
 
   Task({
     required this.id,
@@ -20,7 +19,6 @@ class Task {
     this.dueDate,
     required this.createdAt,
     required this.updatedAt,
-    this.attachments,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -40,7 +38,6 @@ class Task {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'] as String)
           : DateTime.now(),
-      attachments: json['attachments'] as List? ?? [],
     );
   }
 
@@ -68,7 +65,6 @@ class Task {
     DateTime? dueDate,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<dynamic>? attachments,
   }) {
     return Task(
       id: id ?? this.id,
@@ -80,7 +76,6 @@ class Task {
       dueDate: dueDate ?? this.dueDate,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      attachments: attachments ?? this.attachments,
     );
   }
 }

@@ -160,18 +160,6 @@ class _TaskCard extends ConsumerWidget {
                     ],
                   ),
                 ),
-                if (task.attachments != null && task.attachments!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Tooltip(
-                      message: 'Has attachment',
-                      child: Icon(
-                        Icons.attach_file,
-                        size: 20,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
                 PopupMenuButton(
                   itemBuilder: (BuildContext context) => [
                     PopupMenuItem(

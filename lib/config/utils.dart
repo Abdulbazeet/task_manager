@@ -16,7 +16,7 @@ class Utils {
             topRight: Radius.circular(8),
           ),
         ),
-        content: Text(message),
+        content: Text(message, style: Theme.of(context).textTheme.bodyMedium,),
         backgroundColor: isSuccess ? Colors.green : Colors.red,
         duration: duration,
       ),
