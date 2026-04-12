@@ -1,45 +1,25 @@
-FROM php:8.3-apache
+FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip \
-    libonig-dev \
-    libjpeg-dev libpng-dev libfreetype6-dev \
+    php8.3 php8.3-fpm php8.3-cli \
+    php8.3-mysql php8.3-mbstring php8.3-xml php8.3-bcmath php8.3-gd \
+    nginx curl zip unzip git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Completely disable event and worker MPM before enabling prefork
-RUN a2dismod mpm_event mpm_worker 2>/dev/null || true
-RUN a2enmod mpm_prefork rewrite
-
-# Configure Apache for Laravel
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/c\
-    <Directory /var/www/html/public>\
-        AllowOverride All\
-        Require all granted\
-        <IfModule mod_rewrite.c>\
-            RewriteEngine On\
-            RewriteBase /\
-            RewriteCond %{REQUEST_FILENAME} !-f\
-            RewriteCond %{REQUEST_FILENAME} !-d\
-            RewriteRule ^(.*)$ index.php/$1 [L]\
-        </IfModule>\
-    </Directory>' /etc/apache2/apache2.conf
+RUN mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+RUN printf 'server {\n    listen 80 default_server;\n    root /var/www/html/public;\n    index index.php;\n    location / {\n        try_files $uri $uri/ /index.php?$query_string;\n    }\n    location ~ \\.php$ {\n        include snippets/fastcgi-php.conf;\n        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;\n    }\n}\n' > /etc/nginx/sites-available/default && \
+    ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-# Create necessary directories
 RUN mkdir -p bootstrap/cache storage/logs storage/framework/sessions storage/framework/views storage/framework/cache
-
-# Skip optimization - just install
 RUN composer install 2>&1 | head -20 || true
-
 RUN cp .env.example .env && php artisan key:generate 2>/dev/null || true
 RUN chown -R www-data:www-data . && chmod -R 755 bootstrap/cache storage
 
+RUN printf '#!/bin/bash\nservice php8.3-fpm start\nnginx -g "daemon off;"\n' > /entrypoint.sh && chmod +x /entrypoint.sh
+
 EXPOSE 80
-CMD ["apache2-foreground"]
+CMD ["/entrypoint.sh"]
