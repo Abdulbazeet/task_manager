@@ -13,7 +13,7 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-    void _showLogoutDialog(BuildContext context) {
+  void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
@@ -37,6 +37,7 @@ class _HomeState extends ConsumerState<Home> {
       ),
     );
   }
+
   @override
   void initState() {
     super.initState();
@@ -105,13 +106,17 @@ class _HomeState extends ConsumerState<Home> {
                     ],
                   ),
                 ),
-                body: TabBarView(
-                  children: [
-                    TaskList(tasks: allTasks),
-                    TaskList(tasks: pendingTasks),
-                    TaskList(tasks: inProgressTasks),
-                    TaskList(tasks: doneTasks),
-                  ],
+                body: RefreshIndicator(
+                  onRefresh: () =>
+                      ref.read(tasksProvider.notifier).fetchTasks(),
+                  child: TabBarView(
+                    children: [
+                      TaskList(tasks: allTasks),
+                      TaskList(tasks: pendingTasks),
+                      TaskList(tasks: inProgressTasks),
+                      TaskList(tasks: doneTasks),
+                    ],
+                  ),
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
@@ -148,6 +153,4 @@ class _HomeState extends ConsumerState<Home> {
       },
     );
   }
-
-
 }
