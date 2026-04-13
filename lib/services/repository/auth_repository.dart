@@ -7,6 +7,11 @@ import '../../config/exception.dart';
 class AuthRepository {
   static const String baseUrl = 'http://10.0.2.2:8000/api';
 
+  // static const String baseUrl =
+  //     'https://taskmanager-production-dee.up.railway.app/api';
+
+
+
   // REgister
   Future<Map<String, dynamic>> register({
     required String name,
