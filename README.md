@@ -64,16 +64,6 @@ php artisan migrate:fresh --seed
 php artisan serve
 ```
 
-[**→ Full Backend Setup Guide →**](task-manager_backend/README.md)
-
-### Flutter Setup
-
-```bash
-flutter pub get
-flutter run
-```
-
-[**→ Full Flutter Setup Guide →**](FLUTTER_SETUP.md)
 
 ---
 
@@ -116,14 +106,6 @@ flutter run
 
 ---
 
-## 📚 Documentation
-
-- [Backend API Reference](task-manager_backend/README.md#api-reference)
-- [Flutter Setup & Architecture](FLUTTER_SETUP.md)
-- [Environment Variables](task-manager_backend/.env.example)
-- [GitHub Push Guide](GITHUB_PUSH_GUIDE.md)
-
----
 
 ## 🔗 Live Repository
 
